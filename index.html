@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My-lator</title>
+  <style>
+    * {
+      font-family: 'Nunito', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+      background-color: rgb(63, 56, 57);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    html {
+      font-size: 62.5%;
+      scroll-behavior: smooth;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 100vw;
+    }
+
+    h1 {
+      text-align: center;
+      color: #c4c1c1;
+      margin-bottom: 30px;
+    }
+
+    .input-container {
+      color: red;
+      margin-bottom: 20px;
+    }
+
+    .input-container label {
+      display: block;
+      margin-bottom: 5px;
+      color: red;
+      font-size: 1.7rem;
+      text-align: center;
+    }
+
+    textarea {
+      min-height: 30vh;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #3d67b5;
+      border-radius: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .button-container button {
+      background-color: #18891c;
+      color: white;
+      border-radius: 14px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 0 10px;
+    }
+
+    .button-container button:active {
+      background-color: red;
+      color: white;
+    }
+
+    #output {
+      min-height: 30vh;
+      font-size: 20px;
+      margin-top: 10px;
+      background-color: #a2a0a0;
+      padding: 10px;
+      word-wrap: break-word;
+      border-radius: 20px;
+    }
+
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+
+    .clrbtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    #clear-button,
+    #copy-button {
+      background-color: #18891c;
+      color: white;
+      border-radius: 24px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 0 30px;
+    }
+
+    #copy-button {
+      background-color: #0451a8;
+      padding: 10px 30px;
+    }
+
+
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>My-lator</h1>
+
+    <div class="input-container">
+      <label for="input">Krle bhy tu bhi💀</label>
+      <textarea id="input" rows="4" cols="50"></textarea>
+    </div>
+
+    <div class="button-container">
+      <button onclick="translateToSymbols()">Translate to Symbols</button>
+      <button onclick="translateToEnglish()">Translate to English</button>
+    </div>
+
+    <div id="output"></div>
+
+    <div id="popup" class="popup">Text Copied!</div>
+  </div>
+  <div class="clrbtn">
+    <button id="clear-button" onclick="clearAll()">Clear All</button>
+    <button id="copy-button" onclick="copyText()">Copy</button>
+  </div>
+  <script>
+    const translationMap = {
+      'a': '@52',
+      'b': '#12',
+      'c': '₹88',
+      'd': '&36',
+      'e': '@44',
+      'f': '#78',
+      'g': '₹23',
+      'h': '&99',
+      'i': '@66',
+      'j': '#31',
+      'k': '₹17',
+      'l': '&55',
+      'm': '@19',
+      'n': '#77',
+      'o': '₹48',
+      'p': '&61',
+      'q': '@73',
+      'r': '#25',
+      's': '₹11',
+      't': '&83',
+      'u': '@37',
+      'v': '#95',
+      'w': '₹69',
+      'x': '&42',
+      'y': '@80',
+      'z': '#28',
+      'A': '@52',
+      'B': '#12',
+      'C': '₹88',
+      'D': '&36',
+      'E': '@44',
+      'F': '#78',
+      'G': '₹23',
+      'H': '&99',
+      'I': '@66',
+      'J': '#31',
+      'K': '₹17',
+      'L': '&55',
+      'M': '@19',
+      'N': '#77',
+      'O': '₹48',
+      'P': '&61',
+      'Q': '@73',
+      'R': '#25',
+      'S': '₹11',
+      'T': '&83',
+      'U': '@37',
+      'V': '#95',
+      'W': '₹69',
+      'X': '&42',
+      'Y': '@80',
+      'Z': '#28',
+      ' ': ' '
+    };
+
+    function translateToSymbols() {
+      const input = document.getElementById('input').value;
+      let output = '';
+
+      for (let i = 0; i < input.length; i++) {
+        const letter = input[i];
+
+        if (translationMap.hasOwnProperty(letter)) {
+          output += translationMap[letter];
+        } else {
+          output += letter;
+        }
+      }
+
+      document.getElementById('output').textContent = output;
+    }
+
+    function translateToEnglish() {
+      const input = document.getElementById('input').value;
+      let output = '';
+
+      let i = 0;
+      while (i < input.length) {
+        const char = input[i];
+
+        if (char === '@' || char === '#' || char === '₹' || char === '&') {
+          const symbol = input.slice(i, i + 3);
+          const translatedLetter = getKeyByValue(translationMap, symbol);
+
+          if (translatedLetter) {
+            output += translatedLetter;
+          } else {
+            output += symbol;
+          }
+
+          i += 3;
+        } else {
+          output += char;
+          i++;
+        }
+      }
+
+      document.getElementById('output').textContent = output;
+    }
+
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
+
+    function clearAll() {
+      document.getElementById('input').value = '';
+      document.getElementById('output').textContent = '';
+    }
+
+    function copyText() {
+      const output = document.getElementById('output').textContent;
+
+      navigator.clipboard.writeText(output)
+        .then(() => {
+          const popup = document.getElementById('popup');
+          popup.classList.add('show');
+          setTimeout(() => {
+            popup.classList.remove('show');
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy text: ', err);
+        });
+    }
+  </script>
+</body>
+
+</html>
